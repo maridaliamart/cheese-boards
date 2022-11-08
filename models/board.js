@@ -1,5 +1,4 @@
-const {sequelize} = require('../db');
-const { Sequelize } = require('sequelize');
+const {sequelize, Sequelize} = require('../db');
 
 let Board = sequelize.define('Board', {
     title: DataTypes.STRING,
