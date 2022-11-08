@@ -87,8 +87,38 @@ describe('board, cheese, and user models', () => {
         const menus = await roquefort.getBoard();
 
         expect(menus.length).toBe(2);
-
     })
+    test('board can be loaded with cheese', async () => {
+        await sequelize.sync({ force: true });
+        await Cheese.create(seedCheese[0]);
+        let firstBoard = await Board.create(seedBoard[0]);
+        await Cheese.create(seedBoard[1]);
+        let roquefort = await Cheese.create(seedCheese[0]);
+        let camembert = await Cheese.create(seedCheese[1]);
+
+        await firstBoard.addCheese(roquefort);
+        await firstBoard.addCheese(camembert);
+        
+        const menus = await Board.findAll({
+            include: [{model: Cheese, as: 'cheese'}]
+        })
+        expect(menus[0].cheese.length.toBe(2))
+    })
+    test('cheese can be on many boards', async () => {
+        await sequelize.sync({ force: true });
+        await Board.create(seedBoard[0]);
+        let firstCheese = await Cheese.create(seedCheese[0]);
+        await Board.create(seedCheese[1]);
+        let firstBoard = await Board.create(seedCheese[0]);
+        let secondBoard = await Board.create(seedCheese[1]);
+
+        
+        const menus = await Board.findAll({
+            include: [{model: Cheese, as: 'cheese'}]
+        })
+        expect(menus[0].cheese.length.toBe(2))
+    })
+
 
 
     
