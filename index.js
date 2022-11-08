@@ -6,5 +6,5 @@ Board.belongsTo(User);
 User.hasMany(Board)
 Cheese.belongsTo(Board);
 Board.hasMany(Cheese);
-
+User.hasMany(Cheese, {through: 'cheese_board'}) 
 module.exports = {Board, Cheese, User}
