@@ -113,8 +113,8 @@ describe('board, cheese, and user models', () => {
         let secondBoard = await Board.create(seedCheese[1]);
 
         
-        const menus = await Board.findAll({
-            include: [{model: Cheese, as: 'cheese'}]
+        const menus = await Cheese.findAll({
+            include: [{model: Board, as: 'board'}]
         })
         expect(menus[0].cheese.length.toBe(2))
     })
