@@ -75,7 +75,19 @@ describe('board, cheese, and user models', () => {
 
     })
 
-    test('')
+    test('Cheese can be on many Boards', async () =>{
+        await sequelize.sync({ force: true });
+        let oneBoard = await Board.create(seedBoard[0]);
+        let firstCheese = await Cheese.create(seedCheese[0]);
+        let secondCheese = await Cheese.create(seedCheese[1]);
+        await oneBoard.addCheese(firstCheese);
+        await oneBoard.addCheese(secondCheese);
+        
+        const menus = await oneBoard.getCheese();
+
+        expect(menus.length).toBe(2);
+        expect(menus[0] instanceof Board).toBeTruthy;
+    })
 
 
 
