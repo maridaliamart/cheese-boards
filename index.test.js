@@ -47,6 +47,22 @@ describe('board, cheese, and user models', () => {
         const deletedCheese = await foundCheese[0].destroy();
         expect(deletedCheese.name).toBe(seedCheese[0].name)
     })
+    test('User can have many boards', async () => {
+        await sequelize.sync({ force: true });
+        let oneUser = await User.create(seedUser[0]);
+        let firstBoard = await Board.create(seedBoard[0]);
+        let secondBoard = await Board.create(seedBoard[1]);
+        await oneUser.addBoard(firstBoard);
+        await oneUser.addBoard(secondBoard);
+        
+        const menus = await oneUser.getBoard();
+
+        expect(menus.length).toBe(2);
+        expect(menus[0] instanceof User).toBeTruthy;
+
+    })
+
+    test('Board can have many cheeses')
 
 
 
